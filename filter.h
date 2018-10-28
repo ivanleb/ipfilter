@@ -11,19 +11,17 @@
 #include <tuple>
 #include <functional>
 
+#include "version.h"
+
 using ip_container = std::vector<std::vector<std::string>>;
 
 bool predicate(std::vector<std::string> s1, std::vector<std::string> s2)
 {
     size_t size = s1.size() < s2.size() ? s1.size() : s2.size();
     for (size_t i = 0; i < size; ++i)
-    {//прохожу по строкам в векторе
-        //если длины строк не равны
+    {
         if(s1.at(i).size() > s2.at(i).size()) return true;
         else if(s1.at(i).size() < s2.at(i).size()) return false;
-
-        //если равны то сравниваю посимвольно
-
         for (int j = 0; j < s1.at(i).size(); ++j)
         {
             if(s1.at(i).compare(s2.at(i)) > 0) return true;
@@ -72,3 +70,8 @@ ip_container filter(ip_container& ip_pool, T t, P ...p)
     auto result = filter(intermediateResult,p...);
     return result;
 };
+
+int version()
+{
+    return PROJECT_VERSION_PATCH;
+}

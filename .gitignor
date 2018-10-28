@@ -1,4 +1,4 @@
 *.tsv
 build/
-.vscode/
+.vscode/*.json
 *.directory
