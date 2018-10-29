@@ -27,7 +27,8 @@ BOOST_AUTO_TEST_CASE(ip_filter_test_filter_any)
     {
         for(size_t i = 0; i < vs.size(); ++i)
         {
-            BOOST_CHECK( !(bool)(vs[i].compare(ip1[i]) );
+            bool compResult = !(bool)(vs[i].compare(ip1[i]);
+            BOOST_CHECK( compResult );
         }
     }
     //BOOST_CHECK();
