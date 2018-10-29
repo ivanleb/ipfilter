@@ -8,7 +8,7 @@ configure_file(version.h.in ${PROJECT_SOURCE_DIR}/version.h)
 
 add_executable(ip_filter ip_filter.cpp)
 
-add_library(filterlib filter.h)
+add_library(filterlib filter.cpp)
 
 add_executable(test_version test_version.cpp)
 
