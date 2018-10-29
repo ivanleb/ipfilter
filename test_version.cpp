@@ -1,6 +1,6 @@
 #define BOOST_TEST_MODULE ip_filter_test_module
 
-#include "filter.h"
+#include "filter.cpp"
 
 #include <boost/test/unit_test.hpp>
 
