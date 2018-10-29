@@ -1,5 +1,7 @@
 *.tsv
 build/
+!vscode/
+!.vscode/
 .vscode/
 .vscode/*
 .vscode/*.json
