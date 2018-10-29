@@ -13,6 +13,7 @@
 
 #include "version.h"
 
+static int ipPart = 0;
 using ip_container = std::vector<std::vector<std::string>>;
 
 bool predicate(std::vector<std::string> s1, std::vector<std::string> s2)
