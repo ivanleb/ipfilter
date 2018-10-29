@@ -46,32 +46,18 @@ void Print(const ip_container& container)
 
 int main(int argc, char const *argv[])
 {
-   
-    if(argc <= 1)
-    {
-        std::cout << "Empty file path" << std::endl;
-        return 0;
-    }
-    //std::cout << argv[1] << std::endl;
-    //if(argv[1] == "--version")
-    //{
-    //    std::cout << "version = " << version() << std::endl;
-    //    return 0;
-    //}
-    std::ifstream instream(argv[1]); 
-
     try
     {
         ip_container ip_pool;
 
-        for(std::string line; std::getline(instream, line);)
+        for(std::string line; std::getline(std::cin, line);)
         {
             std::vector<std::string> v = split(line, '\t');
             ip_pool.push_back(split(v.at(0), '.'));
         }
 
         std::sort(ip_pool.begin(), ip_pool.end(),predicate);
-        
+
         Print(ip_pool);
 
         auto result = filter(ip_pool, 1);
