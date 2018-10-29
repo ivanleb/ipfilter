@@ -54,7 +54,7 @@ int main(int argc, char const *argv[])
     }
     if(argv[1] == "--version")
     {
-        std::cout << version() << std::endl;
+        std::cout << "version = " << version() << std::endl;
         return 0;
     }
     std::ifstream instream(argv[1]); 
