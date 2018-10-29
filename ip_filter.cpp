@@ -52,12 +52,12 @@ int main(int argc, char const *argv[])
         std::cout << "Empty file path" << std::endl;
         return 0;
     }
-    std::cout << argv[1] << std::endl;
-    if(argv[1] == "--version")
-    {
-        std::cout << "version = " << version() << std::endl;
-        return 0;
-    }
+    //std::cout << argv[1] << std::endl;
+    //if(argv[1] == "--version")
+    //{
+    //    std::cout << "version = " << version() << std::endl;
+    //    return 0;
+    //}
     std::ifstream instream(argv[1]); 
 
     try
@@ -70,6 +70,8 @@ int main(int argc, char const *argv[])
             ip_pool.push_back(split(v.at(0), '.'));
         }
 
+        std::sort(ip_pool.begin(), ip_pool.end(),predicate);
+        
         Print(ip_pool);
 
         auto result = filter(ip_pool, 1);
