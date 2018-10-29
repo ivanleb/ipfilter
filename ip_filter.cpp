@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "filter.h"
+#include "filter.cpp"
 
 // ("",  '.') -> [""]
 // ("11", '.') -> ["11"]
@@ -34,7 +34,7 @@ std::vector<std::string> split(const std::string &str, char d)
 int main(int argc, char const *argv[])
 {
     std::ifstream instream("ip_filter.tsv");
-    
+
     try
     {
         ip_container ip_pool;
