@@ -52,6 +52,7 @@ int main(int argc, char const *argv[])
         std::cout << "Empty file path" << std::endl;
         return 0;
     }
+    std::cout << argv[1] << std::endl;
     if(argv[1] == "--version")
     {
         std::cout << "version = " << version() << std::endl;
