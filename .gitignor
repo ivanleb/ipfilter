@@ -1,5 +1,6 @@
 *.tsv
 build/
 .vscode/
+.vscode/*
 .vscode/*.json
 *.directory

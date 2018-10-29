@@ -49,6 +49,14 @@ ip_container filter_any(ip_container& container, T t)
     return result;
 }
 
+template <typename T, typename ... P>
+ip_container filter_any(ip_container container, T t, P ... p)
+{
+    ip_container intermediateResult;
+    intermediateResult = filter_any(container, t);
+    auto result = filter_any(intermediateResult, p...);
+    return result;
+}
 
 template<typename T>
 ip_container filter(ip_container& ip_pool, T t)
