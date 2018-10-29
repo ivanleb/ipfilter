@@ -52,7 +52,11 @@ int main(int argc, char const *argv[])
         std::cout << "Empty file path" << std::endl;
         return 0;
     }
-
+    if(argv[1] == "--version")
+    {
+        std::cout << version() << std::endl;
+        return 0;
+    }
     std::ifstream instream(argv[1]); 
 
     try
