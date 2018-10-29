@@ -31,9 +31,29 @@ std::vector<std::string> split(const std::string &str, char d)
     return r;
 }
 
+void Print(const ip_container& container)
+{
+        for(const auto& i: container)
+        {
+            for(const auto& str : i)
+            {
+                std::cout << str;
+                if(str != *(i.cend()-1)){std::cout<< ".";}
+            }
+            std::cout << std::endl;
+        }
+}
+
 int main(int argc, char const *argv[])
 {
-    std::ifstream instream("ip_filter.tsv");
+   
+    if(argc <= 1)
+    {
+        std::cout << "Empty file path" << std::endl;
+        return 0;
+    }
+
+    std::ifstream instream(argv[1]); 
 
     try
     {
@@ -45,21 +65,25 @@ int main(int argc, char const *argv[])
             ip_pool.push_back(split(v.at(0), '.'));
         }
 
-        auto result = filter(ip_pool, 81, 198);
+        Print(ip_pool);
+
+        auto result = filter(ip_pool, 1);
 
         std::sort(result.begin(), result.end(),predicate);
 
-        for(const auto& i: result)
-        {
-            for(const auto& str : i)
-            {
-                std::cout << str;
-                if(str != *(i.cend()-1)){std::cout<< ".";}
-            }
-            std::cout << std::endl;
-        }
+        Print(result);
 
-        // TODO reverse lexicographically sort
+        auto result_1 = filter(ip_pool, 46, 70);
+
+        std::sort(result_1.begin(), result_1.end(),predicate);
+
+        Print(result_1);
+
+        auto any_result = filter_any(ip_pool, 46);
+
+        std::sort(any_result.begin(), any_result.end(),predicate);
+
+        Print(any_result);        
 
     }    
     catch(const std::exception &e)
