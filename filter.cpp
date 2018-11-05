@@ -6,14 +6,12 @@
 #include <vector>
 #include <fstream>
 #include <algorithm>
-//#include <stdlib.h>
 #include <cstring>
 #include <tuple>
 #include <functional>
 
 #include "version.h"
 
-static int ipPart = 0;
 using ip_container = std::vector<std::vector<std::string>>;
 
 bool predicate(std::vector<std::string> s1, std::vector<std::string> s2)
@@ -58,12 +56,12 @@ ip_container filter_any(ip_container container, T t, P ... p)
     return result;
 }
 
-template<typename T>
+template<int N,typename T>
 ip_container filter(ip_container& ip_pool, T t)
 {
     auto filter_predicate = [t](std::vector<std::string> v)
     {
-        if(v.at(ipPart) == std::to_string(t)) return true;
+        if(v.at(N) == std::to_string(t)) return true;
         return false;
     };
     ip_container result;
@@ -71,12 +69,18 @@ ip_container filter(ip_container& ip_pool, T t)
     return result;
 }
 
-template<typename T, typename ... P>
+template<int N, typename T, typename ... P>
 ip_container filter(ip_container& ip_pool, T t, P ...p)
 {
-    auto intermediateResult = filter(ip_pool,t);
-    ipPart = ipPart + 1;
-    auto result = filter(intermediateResult,p...);
+    auto intermediateResult = filter<N>(ip_pool,t);
+    auto result = filter<N+1>(intermediateResult,p...);
+    return result;
+}
+
+template< typename ... P>
+ip_container filter(ip_container& ip_pool, P ...p)
+{
+    auto result = filter<0>(ip_pool, p...);
     return result;
 }
 
