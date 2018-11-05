@@ -1,4 +1,4 @@
-# pragma once
+
 #include <cassert>
 #include <cstdlib>
 #include <iostream>
@@ -23,7 +23,7 @@ bool predicate(std::vector<std::string> s1, std::vector<std::string> s2)
     {
         if(s1.at(i).size() > s2.at(i).size()) return true;
         else if(s1.at(i).size() < s2.at(i).size()) return false;
-        for (int j = 0; j < s1.at(i).size(); ++j)
+        for (size_t j = 0; j < s1.at(i).size(); ++j)
         {
             if(s1.at(i).compare(s2.at(i)) > 0) return true;
             else if(s1.at(i).compare(s2.at(i)) < 0) return false;
@@ -78,7 +78,7 @@ ip_container filter(ip_container& ip_pool, T t, P ...p)
     ipPart = ipPart + 1;
     auto result = filter(intermediateResult,p...);
     return result;
-};
+}
 
 int version()
 {

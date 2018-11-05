@@ -44,7 +44,7 @@ void Print(const ip_container& container)
         }
 }
 
-int main(int argc, char const *argv[])
+int main()
 {
     try
     {
