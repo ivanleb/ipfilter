@@ -2,46 +2,37 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <vector>
+#include <functional>
 
 #include "filter.cpp"
 
-// ("",  '.') -> [""]
-// ("11", '.') -> ["11"]
-// ("..", '.') -> ["", "", ""]
-// ("11.", '.') -> ["11", ""]
-// (".11", '.') -> ["", "11"]
-// ("11.22", '.') -> ["11", "22"]
-std::vector<std::string> split(const std::string &str, char d)
+std::vector<std::string> split2(const std::string &str, char d)
 {
     std::vector<std::string> r;
+    std::stringstream strStream(str);
+    std::string word;
 
-    std::string::size_type start = 0;
-    std::string::size_type stop = str.find_first_of(d);
-    while(stop != std::string::npos)
+    while (std::getline(strStream, word, d)) 
     {
-        r.push_back(str.substr(start, stop - start));
-
-        start = stop + 1;
-        stop = str.find_first_of(d, start);
+        r.push_back(word);
     }
-
-    r.push_back(str.substr(start));
-
+   
     return r;
 }
 
 void Print(const ip_container& container)
 {
-        for(const auto& i: container)
-        {
-            for(const auto& str : i)
-            {
-                std::cout << str;
-                if(str != *(i.cend()-1)){std::cout<< ".";}
-            }
-            std::cout << std::endl;
+    for(const auto& ip: container)
+    {
+        for(size_t i = 0; i < ip.size(); ++i )
+        {            
+            std::cout << ip[i];
+            if(i != ip.size()-1){std::cout<< ".";}
         }
+        std::cout << std::endl;
+    }
 }
 
 int main()
@@ -52,30 +43,26 @@ int main()
 
         for(std::string line; std::getline(std::cin, line);)
         {
-            std::vector<std::string> v = split(line, '\t');
-            ip_pool.push_back(split(v.at(0), '.'));
+            std::vector<std::string> v = split2(line, '\t');
+            std::vector<std::string> vv = split2(v.at(0), '.');
+            std::vector<int> intV; 
+            for(const auto& s: vv)
+            {
+                intV.emplace_back(std::stoi(s));
+            }
+            ip_pool.push_back(intV);
         }
 
         std::sort(ip_pool.begin(), ip_pool.end(),predicate);
-
         Print(ip_pool);
 
         auto result = filter(ip_pool, 1);
-
-        std::sort(result.begin(), result.end(),predicate);
-
         Print(result);
 
         auto result_1 = filter(ip_pool, 46, 70);
-
-        std::sort(result_1.begin(), result_1.end(),predicate);
-
         Print(result_1);
 
         auto any_result = filter_any(ip_pool, 46);
-
-        std::sort(any_result.begin(), any_result.end(),predicate);
-
         Print(any_result);        
 
     }    
