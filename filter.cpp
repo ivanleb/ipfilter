@@ -27,16 +27,16 @@ template<typename T>
 ip_container filter_any(ip_container& container, T t)
 {
     ip_container result;
-    for(const auto & ip : container)
-    {
-        for (const auto& ip_part : ip)
+    std::any_of(container.cbegin(), container.cend(), 
+        [t, &result](std::vector<int> v) 
         {
-            if(ip_part == t)
+            if(std::find(v.cbegin(), v.cend(), t) != v.cend()) 
             {
-                result.push_back(ip);
+                if(std::find(result.cbegin(), result.cend(),v) == result.cend())
+                    result.push_back(v); 
             }
-        }
-    }
+            return false;
+        });
     return result;
 }
 
