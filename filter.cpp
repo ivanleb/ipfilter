@@ -12,31 +12,26 @@
 
 using ip_container = std::vector<std::vector<int>>;
 
-bool predicate(std::vector<int> s1, std::vector<int> s2)
-{
-    size_t size = s1.size() < s2.size() ? s1.size() : s2.size();
-    for (size_t i = 0; i < size; ++i)
-    {
-        if(s1.at(i) > s2.at(i)) return true;
-        if(s1.at(i) < s2.at(i)) return false;
-    }
-    return true;
-}
-
 template<typename T>
 ip_container filter_any(ip_container& container, T t)
 {
     ip_container result;
-    std::any_of(container.cbegin(), container.cend(), 
-        [t, &result](std::vector<int> v) 
+    
+    for(const auto & ip : container)
+    {
+        for (const auto& ip_part : ip)
         {
-            if(std::find(v.cbegin(), v.cend(), t) != v.cend()) 
+            if(ip_part == t)
             {
-                if(std::find(result.cbegin(), result.cend(),v) == result.cend())
-                    result.push_back(v); 
+                if(!std::any_of(result.cbegin(), result.cend(), 
+                    [ip](std::vector<int> v)
+                    {
+                        return v == ip;
+                    }))
+                    result.push_back(ip);
             }
-            return false;
-        });
+        }
+    }
     return result;
 }
 
