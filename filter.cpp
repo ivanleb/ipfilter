@@ -21,8 +21,8 @@ ip_container filter_any(ip_container& container, T t)
         if(std::any_of(ip.begin(), ip.end(), 
             [t](int ip_part){return t == ip_part;}))
         {
-            if(!std::any_of(result.begin(), result.end(), 
-                [ip](std::vector<int> v){return v == ip;}))
+            // if(!std::any_of(result.begin(), result.end(), 
+            //     [ip](std::vector<int> v){return v == ip;}))
             result.push_back(ip);
         }
     }
@@ -46,8 +46,9 @@ ip_container filter(ip_container& ip_pool, T t)
     {
         if(v.at(N) == t) 
         {
-            return !std::any_of(result.begin(), result.end(),
-                        [&v](std::vector<int> ip){return v == ip;});
+            return true;
+            // !std::any_of(result.begin(), result.end(),
+            //             [&v](std::vector<int> ip){return v == ip;});
         }
         else return false;
     });
