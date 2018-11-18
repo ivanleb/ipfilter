@@ -50,20 +50,10 @@ int main()
             {
                 intV.emplace_back(std::stoi(s));
             }
-            if(!std::any_of(ip_pool.cbegin(), ip_pool.cend(), 
-                [intV](std::vector<int> v)    
-                {
-                    return v == intV;
-                }))
-                ip_pool.push_back(intV);
+            ip_pool.push_back(intV);
         }
-
-        std::sort(ip_pool.begin(), ip_pool.end(),
-            [](std::vector<int> v1, std::vector<int> v2)
-            {
-                return !std::lexicographical_compare(v1.cbegin(), v1.cend(), v2.cbegin(), v2.cend());
-            }
-        );
+        std::sort(ip_pool.begin(), ip_pool.end(), std::greater<std::vector<int>>());
+        //std::sort(ip_pool.begin(), ip_pool.end(), [](std::vector<int> v1, std::vector<int> v2){return v1 > v2;});
         Print(ip_pool);
 
         auto result = filter(ip_pool, 1);

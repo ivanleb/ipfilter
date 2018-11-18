@@ -15,21 +15,15 @@ using ip_container = std::vector<std::vector<int>>;
 template<typename T>
 ip_container filter_any(ip_container& container, T t)
 {
-    ip_container result;
-    
+    ip_container result;    
     for(const auto & ip : container)
     {
-        for (const auto& ip_part : ip)
+        if(std::any_of(ip.begin(), ip.end(), 
+            [t](int ip_part){return t == ip_part;}))
         {
-            if(ip_part == t)
-            {
-                if(!std::any_of(result.cbegin(), result.cend(), 
-                    [ip](std::vector<int> v)
-                    {
-                        return v == ip;
-                    }))
-                    result.push_back(ip);
-            }
+            if(!std::any_of(result.begin(), result.end(), 
+                [ip](std::vector<int> v){return v == ip;}))
+            result.push_back(ip);
         }
     }
     return result;
@@ -38,8 +32,7 @@ ip_container filter_any(ip_container& container, T t)
 template <typename T, typename ... P>
 ip_container filter_any(ip_container container, T t, P ... p)
 {
-    ip_container intermediateResult;
-    intermediateResult = filter_any(container, t);
+    auto intermediateResult = filter_any(container, t);
     auto result = filter_any(intermediateResult, p...);
     return result;
 }
@@ -48,7 +41,16 @@ template<int N,typename T>
 ip_container filter(ip_container& ip_pool, T t)
 {
     ip_container result;
-    std::copy_if(ip_pool.begin(), ip_pool.end(), std::back_inserter(result), [t](std::vector<int> v){return v.at(N) == t;});
+    std::copy_if(ip_pool.begin(), ip_pool.end(), std::back_inserter(result),
+    [t, &result](std::vector<int> v)
+    {
+        if(v.at(N) == t) 
+        {
+            return !std::any_of(result.begin(), result.end(),
+                        [&v](std::vector<int> ip){return v == ip;});
+        }
+        else return false;
+    });
     return result;
 }
 
@@ -60,7 +62,7 @@ ip_container filter(ip_container& ip_pool, T t, P ...p)
     return result;
 }
 
-template< typename ... P>
+template<typename ... P>
 ip_container filter(ip_container& ip_pool, P ...p)
 {
     auto result = filter<0>(ip_pool, p...);
